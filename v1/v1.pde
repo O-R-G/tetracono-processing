@@ -10,66 +10,57 @@ color green = color(0, 104, 56);
 int[] cone = new int[4];	// would be better to use an object
 // much better to instantiate a cone object 
 // with all properties in it and a method to draw itself
+// * in process *
 
 Cono cono;
 
 
 void setup() {
     size(800, 800, P3D);
-    cone[0]=1;	// top radius
-    cone[1]=75;	// bottom radius 
-    cone[2]=75;	// height 
-    // cone[3]=256;	// # sides
-    cone[3]=64;	// # sides
 
-    cono = new Cono(100);
-    cono.setTop(20.0);
-    cono.setBase(200.0);
-    cono.setHeight(50.0);
+    cono = new Cono(5);
+    cono.setTop(1.0);
+    cono.setBase(75.0);
+    cono.setHeight(75.0);
+    cono.setSides(24);
+
     println("* * *");
     println(cono.getTop());
     println(cono.getBase());
     println(cono.getHeight());
+    println(cono.getSides());
 }
 
 void draw() {
   background(0);
   lights();
   translate(width / 2, height / 2);
-  // scale(2);
-
-  rotateY(map(mouseX, 0, width, 0, PI));
-  rotateZ(map(mouseY, 0, height, 0, -PI));
+  // stroke(255, 100);
   noStroke();
 
-  fill(red);
-  // noFill();
-  // stroke(red);
-  drawCylinder(cone[0], cone[1], cone[2], cone[3]); 
+  rotateY(map(mouseX, 0, width, 0, PI));
+  // rotateY(map(mouseX, 0, width, 0, PI));
+  // rotateZ(map(mouseY, 0, height, 0, -PI));
+  scale(map(mouseY, 0, height, 0, 5));
+  rotateY(-TWO_PI/4);
 
+  cono.draw();
   rotateX(TWO_PI/2);
-  fill(green);
-  // noFill();
-  // stroke(green);
-  drawCylinder(cone[0], cone[1], cone[2], cone[3]); 
-
+  cono.draw();
   rotateX(TWO_PI/4);
-  fill(red);
-  // noFill();
-  // stroke(red);
-  drawCylinder(cone[0], cone[1], cone[2], cone[3]); 
-
+  cono.draw();
   rotateX(TWO_PI/2);
-  fill(green);
-  // noFill();
-  // stroke(green);
-  drawCylinder(cone[0], cone[1], cone[2], cone[3]); 
+  cono.draw();
 
   noFill();
   stroke(255);
   box(150);
 }
 
+
+
+
+/*
 void drawCylinder(float topRadius, float bottomRadius, float tall, int sides) {
   float angle = 0;
   float angleIncrement = TWO_PI / sides;
@@ -133,3 +124,4 @@ if (counter % 2 == 0) {
 }
   counter++;
 }
+*/
