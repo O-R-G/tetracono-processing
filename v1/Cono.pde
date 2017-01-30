@@ -98,8 +98,9 @@ public class Cono {
             } 
             endShape();
         }
-    // *fix* get speed working
-    // rotateX(TWO_PI*speed*.01);
+        // *fix* get speed working
+	// println(counter);
+        rotateY(TWO_PI*counter*speed*.0001);
     }
 }
 

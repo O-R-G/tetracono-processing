@@ -5,20 +5,12 @@
 // https://processing.org/examples/vertices.html
 
 int counter = 0;
-color red = color(237, 28, 36);
-color green = color(0, 104, 56);
-int[] cone = new int[4];	// would be better to use an object
-// much better to instantiate a cone object 
-// with all properties in it and a method to draw itself
-// * in process *
-
 Cono cono;
-
 
 void setup() {
     size(800, 800, P3D);
 
-    cono = new Cono(5);
+    cono = new Cono(50);
     cono.setTop(1.0);
     cono.setBase(75.0);
     cono.setHeight(75.0);
@@ -41,7 +33,7 @@ void draw() {
   rotateY(map(mouseX, 0, width, 0, PI));
   // rotateY(map(mouseX, 0, width, 0, PI));
   // rotateZ(map(mouseY, 0, height, 0, -PI));
-  scale(map(mouseY, 0, height, 0, 5));
+  scale(map(mouseY, 0, height, 0, 6));
   rotateY(-TWO_PI/4);
 
   cono.draw();
@@ -55,6 +47,8 @@ void draw() {
   noFill();
   stroke(255);
   box(150);
+
+  counter++;
 }
 
 
