@@ -24,18 +24,64 @@ void setup() {
 }
 
 void draw() {
-  background(0);
-  lights();
-  translate(width / 2, height / 2);
-  // stroke(255, 100);
-  noStroke();
+    background(0);
+    lights();
+    translate(width / 2, height / 2);
+    // stroke(255, 100);
+    noStroke();
+  
+    // global 3d controls
+    // rotateY(map(mouseX, 0, width, 0, PI));
+    // rotateZ(map(mouseY, 0, height, 0, -PI));
+    // scale(map(mouseY, 0, height, 0, 6));
 
-  rotateY(map(mouseX, 0, width, 0, PI));
-  // rotateY(map(mouseX, 0, width, 0, PI));
-  // rotateZ(map(mouseY, 0, height, 0, -PI));
-  scale(map(mouseY, 0, height, 0, 6));
+    scale(2);
+    // rotateX(1.3333*TWO_PI/4);        // 3/4 view for debug
+    // rotateY(1.3333*TWO_PI/4);        // 3/4 view for debug
+
+    noFill();
+    stroke(255);
+    strokeWeight(.5);
+    line(-width/2, 0, 0, width/2, 0, 0);
+    line(0, -height/2, 0, 0, height/2, 0);
+    line(0, 0, -height/2, 0, 0, height/2);
+    // box(150);
+
+    // shift default view to open side
+    rotateY(-TWO_PI/4);
+
+    // pushMatrix();
+    cono.draw();
+    // popMatrix();
+
+/*
+this all works, now working on scope for speed rotates
+    // pushMatrix();
+    rotateX(-TWO_PI/4);
+    cono.draw();
+    // popMatrix();
+
+    // pushMatrix();
+    rotateX(-TWO_PI/2);
+    cono.draw();
+    // popMatrix();
+
+    // pushMatrix();
+    rotateX(-3*TWO_PI/4);
+    cono.draw();
+    // popMatrix();
+*/
+
+
+/*
+    pushMatrix();
+    rotateX(-TWO_PI/4);
+    cono.draw();
+    popMatrix();
+*/
+
+/*
   rotateY(-TWO_PI/4);
-
   cono.draw();
   rotateX(TWO_PI/2);
   cono.draw();
@@ -43,10 +89,13 @@ void draw() {
   cono.draw();
   rotateX(TWO_PI/2);
   cono.draw();
+*/
 
+/*
   noFill();
   stroke(255);
   box(150);
+*/
 
   counter++;
 }

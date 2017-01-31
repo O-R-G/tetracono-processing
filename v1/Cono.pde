@@ -4,10 +4,11 @@
 public class Cono {
     private int speed;
     private int sides;
+    private int debugalpha = 100;
     private float top, base, height;
-    private color black = color(0);
-    private color red = color(237, 28, 36);
-    private color green = color(0, 104, 56);
+    private color black = color(0, debugalpha);
+    private color red = color(237, 28, 36, debugalpha);
+    private color green = color(0, 104, 56, debugalpha);
 
     public Cono(int speed) {
 	this.speed = speed;
@@ -99,8 +100,8 @@ public class Cono {
             endShape();
         }
         // *fix* get speed working
-	// println(counter);
-        rotateY(TWO_PI*counter*speed*.0001);
+        // println(counter);
+        // rotateY(TWO_PI*counter*speed*.0001);
     }
 }
 
