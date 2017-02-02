@@ -2,7 +2,7 @@
 // tetracono half-red, half-green cone
 
 public class Cono {
-    private int speed;
+    private int rate;
     private int sides;
     private boolean debug = true;
     private int debugalpha = 255;
@@ -12,8 +12,8 @@ public class Cono {
     private color green = color(0, 104, 56, debugalpha);
 
     // constructor
-    public Cono(int speed) {
-    	this.speed = speed;
+    public Cono(int rate) {
+    	this.rate = rate;
     }
 
     // base
@@ -61,7 +61,7 @@ public class Cono {
             println(counter);
  
         pushMatrix();
-        rotateY(TWO_PI*counter*speed*.0001);
+        rotateY(TWO_PI*counter*rate*.0001*speed);
 
         // draw half-cone
         fill(red);

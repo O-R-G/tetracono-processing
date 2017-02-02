@@ -5,15 +5,19 @@
 // https://processing.org/examples/vertices.html
 
 int counter;
-int count = 4;  // number of conos
+int count = 4;                              // # of conos
 Cono[] cono;
+// int[] speeds =  {72, 72, 72, 72};        // local
+int[] speeds =  {-90, -60, 72, 108};          // local
+float speed = .01;                          // global
 
 void setup() {
     size(800, 800, P3D);
 
     cono = new Cono[count];
     for (int i = 0; i < count; i++) {
-        cono[i] = new Cono(int(random(100)) + 1);
+        cono[i] = new Cono(speeds[i]);
+        // cono[i] = new Cono(int(random(100)) + 1);   // random
         cono[i].setTop(1.0);
         cono[i].setBase(75.0);
         cono[i].setHeight(75.0);
@@ -25,24 +29,13 @@ void draw() {
     background(0);
     lights();
     noStroke();
-    translate(width / 2, height / 2);
+    translate(width/2, height/2);
     scale(2);
   
     // global 3d controls
     rotateY(map(mouseX, 0, width, 0, PI));
     // rotateZ(map(mouseY, 0, height, 0, -PI));
-    // scale(map(mouseY, 0, height, 0, 6));
-
-    /*
-    // axes
-    noFill();
-    stroke(255, 100);
-    strokeWeight(.5);
-    line(-width/2, 0, 0, width/2, 0, 0);
-    line(0, -height/2, 0, 0, height/2, 0);
-    line(0, 0, -height/2, 0, 0, height/2);
-    // box(150);
-    */
+    scale(map(mouseY, 0, height, 0, 6));
 
     // uno
     pushMatrix();
