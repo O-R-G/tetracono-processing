@@ -4,167 +4,74 @@
 // based on Vertices by Simon Greenwold
 // https://processing.org/examples/vertices.html
 
-int counter = 0;
-Cono cono;
+int counter;
+int count = 4;  // number of conos
+Cono[] cono;
 
 void setup() {
     size(800, 800, P3D);
 
-    cono = new Cono(50);
-    cono.setTop(1.0);
-    cono.setBase(75.0);
-    cono.setHeight(75.0);
-    cono.setSides(24);
-
-    println("* * *");
-    println(cono.getTop());
-    println(cono.getBase());
-    println(cono.getHeight());
-    println(cono.getSides());
+    cono = new Cono[count];
+    for (int i = 0; i < count; i++) {
+        cono[i] = new Cono(int(random(100)) + 1);
+        cono[i].setTop(1.0);
+        cono[i].setBase(75.0);
+        cono[i].setHeight(75.0);
+        cono[i].setSides(24);
+    }
 }
 
 void draw() {
     background(0);
     lights();
-    translate(width / 2, height / 2);
-    // stroke(255, 100);
     noStroke();
+    translate(width / 2, height / 2);
+    scale(2);
   
     // global 3d controls
-    // rotateY(map(mouseX, 0, width, 0, PI));
+    rotateY(map(mouseX, 0, width, 0, PI));
     // rotateZ(map(mouseY, 0, height, 0, -PI));
     // scale(map(mouseY, 0, height, 0, 6));
 
-    scale(2);
-    // rotateX(1.3333*TWO_PI/4);        // 3/4 view for debug
-    // rotateY(1.3333*TWO_PI/4);        // 3/4 view for debug
-
+    /*
+    // axes
     noFill();
-    stroke(255);
+    stroke(255, 100);
     strokeWeight(.5);
     line(-width/2, 0, 0, width/2, 0, 0);
     line(0, -height/2, 0, 0, height/2, 0);
     line(0, 0, -height/2, 0, 0, height/2);
     // box(150);
+    */
 
-    // shift default view to open side
-    rotateY(-TWO_PI/4);
-
-    // pushMatrix();
-    cono.draw();
-    // popMatrix();
-
-/*
-this all works, now working on scope for speed rotates
-    // pushMatrix();
-    rotateX(-TWO_PI/4);
-    cono.draw();
-    // popMatrix();
-
-    // pushMatrix();
-    rotateX(-TWO_PI/2);
-    cono.draw();
-    // popMatrix();
-
-    // pushMatrix();
-    rotateX(-3*TWO_PI/4);
-    cono.draw();
-    // popMatrix();
-*/
-
-
-/*
+    // uno
     pushMatrix();
-    rotateX(-TWO_PI/4);
-    cono.draw();
+    cono[0].draw();
     popMatrix();
-*/
 
-/*
-  rotateY(-TWO_PI/4);
-  cono.draw();
-  rotateX(TWO_PI/2);
-  cono.draw();
-  rotateX(TWO_PI/4);
-  cono.draw();
-  rotateX(TWO_PI/2);
-  cono.draw();
-*/
+    // due
+    pushMatrix();
+    rotateX(TWO_PI/2);
+    cono[1].draw();
+    popMatrix();
 
-/*
-  noFill();
-  stroke(255);
-  box(150);
-*/
+    // tre
+    pushMatrix();
+    rotateZ(TWO_PI/4);
+    cono[2].draw();
+    popMatrix();
 
-  counter++;
+    // quattro
+    pushMatrix();
+    rotateZ(-TWO_PI/4);
+    cono[3].draw();
+    popMatrix();
+
+    // box
+    noFill();
+    strokeWeight(.5);
+    stroke(255, 100);
+    box(150);
+
+    counter++;
 }
-
-
-
-
-/*
-void drawCylinder(float topRadius, float bottomRadius, float tall, int sides) {
-  float angle = 0;
-  float angleIncrement = TWO_PI / sides;
-  angleIncrement /= 2;	// draw half a cone only
-
-  // draw half-cone
-  fill(red);
-  beginShape(QUAD_STRIP);
-  for (int i = 0; i < sides + 1; ++i) {
-    vertex(topRadius*cos(angle), 0, topRadius*sin(angle));
-    vertex(bottomRadius*cos(angle), tall, bottomRadius*sin(angle));
-    angle += angleIncrement;
-  }
-  endShape();
-
-  // draw other half-cone
-  fill(green);
-  beginShape(QUAD_STRIP);
-  for (int i = 0; i < sides + 1; ++i) {
-    vertex(topRadius*cos(angle), 0, topRadius*sin(angle));
-    vertex(bottomRadius*cos(angle), tall, bottomRadius*sin(angle));
-    angle += angleIncrement;
-  }
-  endShape();
-
-  fill(0);
-  angleIncrement *= 2;  // draw full circles now
-
-  // circular top cap
-  if (topRadius != 0) {
-    angle = 0;
-    beginShape(TRIANGLE_FAN);
-    
-    // Center point
-    vertex(0, 0, 0);
-    for (int i = 0; i < sides + 1; i++) {
-      vertex(topRadius * cos(angle), 0, topRadius * sin(angle));
-      angle += angleIncrement;
-    }
-    endShape();
-  }
-
-  // circular bottom cap
-  if (bottomRadius != 0) {
-    angle = 0;
-    beginShape(TRIANGLE_FAN);
-
-    // Center point
-    vertex(0, tall, 0);
-    for (int i = 0; i < sides + 1; i++) {
-      vertex(bottomRadius * cos(angle), tall, bottomRadius * sin(angle));
-      angle += angleIncrement;
-    }
-    endShape();
-  }
-// quantum weirdness
-if (counter % 2 == 0) {
-  rotateY(TWO_PI+counter*.01);
-} else {
-  rotateX(TWO_PI+counter*.01);
-}
-  counter++;
-}
-*/

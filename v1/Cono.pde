@@ -4,14 +4,16 @@
 public class Cono {
     private int speed;
     private int sides;
-    private int debugalpha = 100;
+    private boolean debug = true;
+    private int debugalpha = 255;
     private float top, base, height;
     private color black = color(0, debugalpha);
     private color red = color(237, 28, 36, debugalpha);
     private color green = color(0, 104, 56, debugalpha);
 
+    // constructor
     public Cono(int speed) {
-	this.speed = speed;
+    	this.speed = speed;
     }
 
     // base
@@ -52,6 +54,14 @@ public class Cono {
         float angle = 0;
         float angleIncrement = TWO_PI / sides;
         angleIncrement /= 2;  // draw half a cone only
+
+        // spin
+        // ** perhaps break out to udate and display() **
+        if (debug)
+            println(counter);
+ 
+        pushMatrix();
+        rotateY(TWO_PI*counter*speed*.0001);
 
         // draw half-cone
         fill(red);
@@ -99,9 +109,7 @@ public class Cono {
             } 
             endShape();
         }
-        // *fix* get speed working
-        // println(counter);
-        // rotateY(TWO_PI*counter*speed*.0001);
+        popMatrix();
     }
 }
 
