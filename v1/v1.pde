@@ -9,7 +9,7 @@ int count = 4;                              // # of conos
 Cono[] cono;
 // int[] speeds =  {72, 72, 72, 72};        // local
 int[] speeds =  {-90, -60, 72, 108};          // local
-float speed = .01;                          // global
+float speed = .25;                          // global
 
 void setup() {
     size(800, 800, P3D);
