@@ -9,8 +9,10 @@ public class Cono {
     private float top, base, height;
     private color black = color(0, debugalpha);
     private color red = color(237, 28, 36, debugalpha);
-    private color green = color(0, 104, 56, debugalpha);
-
+    // private color green = color(0, 104, 56, debugalpha);
+    private color green = color(0, 70, 36, debugalpha);
+    private float rotation;
+    
     // constructor
     public Cono(int rate) {
     	this.rate = rate;
@@ -42,26 +44,31 @@ public class Cono {
 
     // sides
     public void setSides(int sides) {
-	// number of sides of the base polygon
-	// ~ 24 - 256
+	// number of sides of the base polygon ~ 24 - 256
         this.sides = sides;
     }
     public int getSides() {
         return sides;
     }
 
-    void draw() {
+    // update
+    void update() {
+        rotation += (TWO_PI/rate)*speed;    // not right yet
+                                            // one rotation every rate seconds
+                                            // need to modulo on second
+                                            // either on call or in update()
+    }
+
+    void display() {
         float angle = 0;
         float angleIncrement = TWO_PI / sides;
         angleIncrement /= 2;  // draw half a cone only
 
         // spin
-        // ** perhaps break out to udate and display() **
-        if (debug)
-            println(counter);
- 
         pushMatrix();
-        rotateY(TWO_PI*counter*rate*.0001*speed);
+        rotateY(rotation);
+        if (debug)
+            println(rotation);
 
         // draw half-cone
         fill(red);

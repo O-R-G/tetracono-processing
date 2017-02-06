@@ -7,9 +7,9 @@
 int counter;
 int count = 4;                              // # of conos
 Cono[] cono;
-// int[] speeds =  {72, 72, 72, 72};        // local
 int[] speeds =  {-90, -60, 72, 108};          // local
-float speed = .25;                          // global
+float[] dimensions =  {1.0, 75.0, 75.0, 24};          // local
+float speed = .1;                          // global
 
 void setup() {
     size(800, 800, P3D);
@@ -18,16 +18,18 @@ void setup() {
     for (int i = 0; i < count; i++) {
         cono[i] = new Cono(speeds[i]);
         // cono[i] = new Cono(int(random(100)) + 1);   // random
-        cono[i].setTop(1.0);
-        cono[i].setBase(75.0);
-        cono[i].setHeight(75.0);
-        cono[i].setSides(24);
+        cono[i].setTop(dimensions[0]);
+        cono[i].setBase(dimensions[1]);
+        cono[i].setHeight(dimensions[2]);
+        cono[i].setSides(int(dimensions[3]));
     }
 }
 
 void draw() {
     background(0);
     lights();
+    // pointLight(255, 255, 255, 35, 40, 255);
+    // directionalLight(255, 255, 255, -1, 0, 0);
     noStroke();
     translate(width/2, height/2);
     scale(2);
@@ -39,25 +41,29 @@ void draw() {
 
     // uno
     pushMatrix();
-    cono[0].draw();
+    cono[0].update();
+    cono[0].display();
     popMatrix();
 
     // due
     pushMatrix();
     rotateX(TWO_PI/2);
-    cono[1].draw();
+    cono[1].update();
+    cono[1].display();
     popMatrix();
 
     // tre
     pushMatrix();
     rotateZ(TWO_PI/4);
-    cono[2].draw();
+    cono[2].update();
+    cono[2].display();
     popMatrix();
 
     // quattro
     pushMatrix();
     rotateZ(-TWO_PI/4);
-    cono[3].draw();
+    cono[3].update();
+    cono[3].display();
     popMatrix();
 
     // box
