@@ -53,7 +53,14 @@ public class Cono {
 
     // update
     void update() {
-        rotation += (TWO_PI/rate)*speed;    // not right yet
+        float s = map(second(), 0, 60*rate, 0, TWO_PI);
+  
+        float milli = map(millis(), 0, rate*1000, 0, TWO_PI);
+
+        // rotation = s*speed;     // not right yet
+        rotation = milli*speed;     // not right yet
+                                // see sweep.pde for millis()
+        // rotation += (TWO_PI/rate)*speed;    // not right yet
                                             // one rotation every rate seconds
                                             // need to modulo on second
                                             // either on call or in update()

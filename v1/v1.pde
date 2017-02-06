@@ -9,7 +9,9 @@ int count = 4;                              // # of conos
 Cono[] cono;
 int[] speeds =  {-90, -60, 72, 108};          // local
 float[] dimensions =  {1.0, 75.0, 75.0, 24};          // local
-float speed = .1;                          // global
+float speed = 5;                          // global
+
+// ** todo ** fix rate, speed, speeds naming conventions
 
 void setup() {
     size(800, 800, P3D);
