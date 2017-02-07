@@ -4,11 +4,12 @@
 // based on Vertices by Simon Greenwold
 // https://processing.org/examples/vertices.html
 
-int conos = 4;                                      // # of conos
+int conos = 4;                                      
 Cono[] cono;
-float[] dimensions =  {1.0, 75.0, 75.0, 24};          
-int[] speeds = {-90, -60, 72, 108};                 
-float adjustspeeds = 1.0;                            // global
+float[] dimensions =  {1.0, 75.0, 75.0, 24};    // top, base, height, sides 
+int[] speeds = {-90, -60, 72, 108};             // uno, due, tre, quattro    
+float adjustspeeds = 1.0;                       // global
+int boxsize = 150;                              // box dimension x=y=z
 
 void setup() {
     size(800, 800, P3D);
@@ -35,7 +36,7 @@ void draw() {
     // global 3d controls
     rotateY(map(mouseX, 0, width, 0, PI));
     // rotateZ(map(mouseY, 0, height, 0, -PI));
-    // scale(map(mouseY, 0, height, 0, 6));
+    scale(map(mouseY, 0, height, 0, 6));
 
     // uno
     pushMatrix();
@@ -66,8 +67,52 @@ void draw() {
     popMatrix();
 
     // box
-    noFill();
-    strokeWeight(.5);
-    stroke(255, 100);
-    box(150);
+    openbox(boxsize/2);
 }
+
+void openbox(int base) {
+    fill(0);
+    stroke(255,100);
+    strokeWeight(.5);
+
+    // left
+    beginShape();
+    vertex(-base, -base, -base);
+    vertex(-base, -base,  base);
+    vertex(-base,  base,  base);
+    vertex(-base,  base, -base);
+    endShape(CLOSE);
+
+    // back
+    beginShape();
+    vertex(-base, -base, -base);
+    vertex( base, -base, -base);
+    vertex( base,  base, -base);
+    vertex(-base,  base, -base);
+    endShape(CLOSE);
+
+    // right
+    beginShape();
+    vertex( base, -base, -base);
+    vertex( base,  base, -base);
+    vertex( base,  base,  base);
+    vertex( base, -base,  base);
+    endShape(CLOSE);
+
+    // bottom
+    beginShape();
+    vertex(-base,  base, -base);
+    vertex( base,  base, -base);
+    vertex( base,  base,  base);
+    vertex(-base,  base,  base);
+    endShape(CLOSE);
+
+    // top
+    beginShape();
+    vertex(-base, -base, -base);
+    vertex( base, -base, -base);
+    vertex( base, -base,  base);
+    vertex(-base, -base,  base);
+    endShape(CLOSE);
+}
+
