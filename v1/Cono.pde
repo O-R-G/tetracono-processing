@@ -2,7 +2,7 @@
 // tetracono half-red, half-green cone
 
 public class Cono {
-    private int rate;
+    private int speed;
     private int sides;
     private boolean debug = true;
     private int debugalpha = 255;
@@ -14,8 +14,8 @@ public class Cono {
     private float rotation;
     
     // constructor
-    public Cono(int rate) {
-    	this.rate = rate;
+    public Cono(int speed) {
+    	this.speed = speed;
     }
 
     // base
@@ -52,18 +52,11 @@ public class Cono {
     }
 
     // update
-    void update() {
-        float s = map(second(), 0, 60*rate, 0, TWO_PI);
-  
-        float milli = map(millis(), 0, rate*1000, 0, TWO_PI);
-
-        // rotation = s*speed;     // not right yet
-        rotation = milli*speed;     // not right yet
-                                // see sweep.pde for millis()
-        // rotation += (TWO_PI/rate)*speed;    // not right yet
-                                            // one rotation every rate seconds
-                                            // need to modulo on second
-                                            // either on call or in update()
+    void update() {  
+        float millis = map(millis(), 0, speed*1000, 0, TWO_PI);
+        rotation = millis*adjustspeeds;
+        if (debug)
+            println((millis() / 1000) / 60 + ":" + (millis() / 1000) % 60);
     }
 
     void display() {
@@ -74,11 +67,9 @@ public class Cono {
         // spin
         pushMatrix();
         rotateY(rotation);
-        if (debug)
-            println(rotation);
 
         // draw half-cone
-        fill(red);
+        fill(green);
         beginShape(QUAD_STRIP);
         for (int i = 0; i < sides + 1; ++i) {
             vertex(top*cos(angle), 0, top*sin(angle));
@@ -90,7 +81,7 @@ public class Cono {
         angle -= angleIncrement;    // *fix* correct for autoincrement above
 
         // draw other half-cone
-        fill(green);
+        fill(red);
         beginShape(QUAD_STRIP);
         for (int i = 0; i < sides + 1; ++i) {
              vertex(top*cos(angle), 0, top*sin(angle));

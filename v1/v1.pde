@@ -4,22 +4,18 @@
 // based on Vertices by Simon Greenwold
 // https://processing.org/examples/vertices.html
 
-int counter;
-int count = 4;                              // # of conos
+int conos = 4;                                      // # of conos
 Cono[] cono;
-int[] speeds =  {-90, -60, 72, 108};          // local
-float[] dimensions =  {1.0, 75.0, 75.0, 24};          // local
-float speed = 5;                          // global
-
-// ** todo ** fix rate, speed, speeds naming conventions
+float[] dimensions =  {1.0, 75.0, 75.0, 24};          
+int[] speeds = {-90, -60, 72, 108};                 
+float adjustspeeds = 1.0;                            // global
 
 void setup() {
     size(800, 800, P3D);
 
-    cono = new Cono[count];
-    for (int i = 0; i < count; i++) {
+    cono = new Cono[conos];
+    for (int i = 0; i < conos; i++) {
         cono[i] = new Cono(speeds[i]);
-        // cono[i] = new Cono(int(random(100)) + 1);   // random
         cono[i].setTop(dimensions[0]);
         cono[i].setBase(dimensions[1]);
         cono[i].setHeight(dimensions[2]);
@@ -39,7 +35,7 @@ void draw() {
     // global 3d controls
     rotateY(map(mouseX, 0, width, 0, PI));
     // rotateZ(map(mouseY, 0, height, 0, -PI));
-    scale(map(mouseY, 0, height, 0, 6));
+    // scale(map(mouseY, 0, height, 0, 6));
 
     // uno
     pushMatrix();
@@ -50,6 +46,7 @@ void draw() {
     // due
     pushMatrix();
     rotateX(TWO_PI/2);
+    rotateY(TWO_PI/2);
     cono[1].update();
     cono[1].display();
     popMatrix();
@@ -73,6 +70,4 @@ void draw() {
     strokeWeight(.5);
     stroke(255, 100);
     box(150);
-
-    counter++;
 }
