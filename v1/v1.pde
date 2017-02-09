@@ -4,15 +4,34 @@
 // based on Vertices by Simon Greenwold
 // https://processing.org/examples/vertices.html
 
-int conos = 4;                                      
 Cono[] cono;
-float[] dimensions =  {1.0, 75.0, 75.0, 24};    // top, base, height, sides 
-int[] speeds = {-90, -60, 72, 108};             // uno, due, tre, quattro    
-float adjustspeeds = 1.0;                       // global
-int boxsize = 150;                              // box dimension x=y=z
+float[] dimensions;
+int[] speeds; 
+int boxsize;                                    
+int conos;                    
+float adjustspeeds = 1.0;                       // 1.0 is realtime
+float rotation = 0.0; 
+float scale = 1.0;
 
 void setup() {
-    size(800, 800, P3D);
+    size(400, 400, P3D);
+
+    conos = 4;
+    boxsize = height/2;
+
+    // top, base, height, sides 
+    dimensions = new float[4];
+    dimensions[0] = 1.0;        
+    dimensions[1] = boxsize/2;
+    dimensions[2] = boxsize/2;
+    dimensions[3] = 24;
+
+    // uno, due, tre, quattro
+    speeds = new int[4];
+    speeds[0] = -90;
+    speeds[1] = -60;
+    speeds[2] =  72;
+    speeds[3] = 108;
 
     cono = new Cono[conos];
     for (int i = 0; i < conos; i++) {
@@ -26,17 +45,17 @@ void setup() {
 
 void draw() {
     background(0);
-    lights();
-    // pointLight(255, 255, 255, 35, 40, 255);
-    // directionalLight(255, 255, 255, -1, 0, 0);
+    // lights();    // default settings
+    ambientLight(128, 128, 128);
+    directionalLight(128, 128, 128, 0, 0, -1);
+    lightFalloff(1, 0, 0);
+    lightSpecular(128, 128, 128);
+    shininess(2.0);
+
     noStroke();
     translate(width/2, height/2);
-    scale(2);
-  
-    // global 3d controls
-    rotateY(map(mouseX, 0, width, 0, PI));
-    // rotateZ(map(mouseY, 0, height, 0, -PI));
-    scale(map(mouseY, 0, height, 0, 6));
+    rotateY(rotation);
+    scale(scale);
 
     // uno
     pushMatrix();
@@ -116,3 +135,27 @@ void openbox(int base) {
     endShape(CLOSE);
 }
 
+void mouseDragged() {
+    // global 3d controls
+
+    float adjustX = mouseX - width/2;
+    float adjustY = abs(mouseY - height/2);
+    rotation = map(adjustX, 0, width/2, 0, PI);
+    scale = map(adjustY, 0, height/2, 0, height/100);   
+}
+
+void keyPressed() {
+    switch(key) {
+        case '=':
+        case '+':
+            adjustspeeds++;
+            break;
+        case '-':
+        case '_':
+            if (adjustspeeds > 1.0)
+                adjustspeeds--;
+            break;
+        default:
+            break;
+    }
+}
