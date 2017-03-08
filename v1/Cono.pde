@@ -4,12 +4,11 @@
 public class Cono {
     private int speed;
     private int sides;
-    private boolean debug = true;
+    private boolean debug;
     private int debugalpha = 255;
     private float top, base, height;
     private color black = color(0, debugalpha);
     private color red = color(237, 28, 36, debugalpha);
-    // private color green = color(0, 104, 56, debugalpha);
     private color green = color(0, 70, 36, debugalpha);
     private float rotation;
     
@@ -51,12 +50,18 @@ public class Cono {
         return sides;
     }
 
+    // percent visible
+    public float getPercentVisibleRed() {
+        float percentvisible = map(cos(rotation), -1, 1, 0, 100);
+        return percentvisible;
+    }
+
     // update
     void update() {  
         float millis = map(millis(), 0, speed*1000, 0, TWO_PI);
         rotation = millis*adjustspeeds;
         if (debug)
-            println((millis() / 1000) / 60 + ":" + (millis() / 1000) % 60);
+            println(nf((millis() / 1000) / 60, 2) + ":" + nf((millis() / 1000) % 60, 2));
     }
 
     void display() {
@@ -67,7 +72,7 @@ public class Cono {
         // spin
         pushMatrix();
         rotateY(rotation);
-
+/*
         // draw half-cone
         fill(green);
         beginShape(QUAD_STRIP);
@@ -77,19 +82,21 @@ public class Cono {
             angle += angleIncrement;
         }
         endShape();
-
+*/
         angle -= angleIncrement;    // *fix* correct for autoincrement above
 
         // draw other half-cone
-        fill(red);
+        // fill(red);
+        noFill();
+        stroke(red);
         beginShape(QUAD_STRIP);
         for (int i = 0; i < sides + 1; ++i) {
-             vertex(top*cos(angle), 0, top*sin(angle));
-             vertex(base*cos(angle), height, base*sin(angle));
-             angle += angleIncrement;
+            vertex(top*cos(angle), 0, top*sin(angle));
+            vertex(base*cos(angle), height, base*sin(angle));
+            angle += angleIncrement;
         }
         endShape();
-
+/*
         fill(black);		
         angleIncrement *= 2;  // draw full circles now
 
@@ -114,7 +121,7 @@ public class Cono {
             } 
             endShape();
         }
+*/
         popMatrix();
     }
 }
-

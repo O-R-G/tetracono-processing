@@ -12,9 +12,10 @@ int conos;
 float adjustspeeds = 1.0;                       // 1.0 is realtime
 float rotation = 0.0; 
 float scale = 1.0;
+boolean debug = true;
 
 void setup() {
-    size(400, 400, P3D);
+    size(900, 900, P3D);
 
     conos = 4;
     boxsize = height/2;
@@ -54,7 +55,8 @@ void draw() {
 
     noStroke();
     translate(width/2, height/2);
-    rotateY(rotation);
+    // rotateY(rotation);
+    rotateX(rotation);
     scale(scale);
 
     // uno
@@ -86,7 +88,20 @@ void draw() {
     popMatrix();
 
     // box
-    openbox(boxsize/2);
+    // openbox(boxsize/2);
+
+    if (debug) {
+        float totalpercentvisiblered = (cono[0].getPercentVisibleRed() + 
+                                        cono[1].getPercentVisibleRed() + 
+                                        cono[2].getPercentVisibleRed() + 
+                                        cono[3].getPercentVisibleRed()) / 4;
+        println(nf((millis() / 1000) / 60, 2) + ":" + nf((millis() / 1000) % 60, 2));
+        println("0 : % " + cono[0].getPercentVisibleRed());
+        println("1 : % " + cono[1].getPercentVisibleRed());
+        println("2 : % " + cono[2].getPercentVisibleRed());
+        println("3 : % " + cono[3].getPercentVisibleRed());
+        println("Σ : % " + totalpercentvisiblered);
+    }
 }
 
 void openbox(int base) {
