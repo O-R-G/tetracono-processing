@@ -59,7 +59,7 @@ public class Cono {
     // update
     void update() {  
         float millis = map(millis(), 0, speed*1000, 0, TWO_PI);
-        rotation = millis*adjustspeeds;
+        // rotation = millis*adjustspeeds;
         if (debug)
             println(nf((millis() / 1000) / 60, 2) + ":" + nf((millis() / 1000) % 60, 2));
     }
@@ -72,9 +72,12 @@ public class Cono {
         // spin
         pushMatrix();
         rotateY(rotation);
-/*
+
         // draw half-cone
-        fill(green);
+        // fill(green);
+        noFill();
+        stroke(255);
+        // stroke(green);
         beginShape(QUAD_STRIP);
         for (int i = 0; i < sides + 1; ++i) {
             vertex(top*cos(angle), 0, top*sin(angle));
@@ -82,13 +85,13 @@ public class Cono {
             angle += angleIncrement;
         }
         endShape();
-*/
+
         angle -= angleIncrement;    // *fix* correct for autoincrement above
 
         // draw other half-cone
         // fill(red);
-        noFill();
-        stroke(red);
+        // noFill();
+        // stroke(red);
         beginShape(QUAD_STRIP);
         for (int i = 0; i < sides + 1; ++i) {
             vertex(top*cos(angle), 0, top*sin(angle));

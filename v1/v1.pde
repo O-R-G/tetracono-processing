@@ -4,18 +4,21 @@
 // based on Vertices by Simon Greenwold
 // https://processing.org/examples/vertices.html
 
+import processing.pdf.*;
+
 Cono[] cono;
 float[] dimensions;
 int[] speeds; 
 int boxsize;                                    
 int conos;                    
-float adjustspeeds = 1.0;                       // 1.0 is realtime
+float adjustspeeds = 1.0;                       // 0.5 is realtime -- why?
 float rotation = 0.0; 
 float scale = 1.0;
 boolean debug = true;
+boolean saveframe = true;
 
 void setup() {
-    size(900, 900, P3D);
+    size(800, 800, P3D);
 
     conos = 4;
     boxsize = height/2;
@@ -25,7 +28,7 @@ void setup() {
     dimensions[0] = 1.0;        
     dimensions[1] = boxsize/2;
     dimensions[2] = boxsize/2;
-    dimensions[3] = 24;
+    dimensions[3] = 30; // [24]
 
     // uno, due, tre, quattro
     speeds = new int[4];
@@ -45,6 +48,9 @@ void setup() {
 }
 
 void draw() {
+    if (saveframe)
+        beginRaw(PDF, "output-####.pdf");
+
     background(0);
     // lights();    // default settings
     ambientLight(128, 128, 128);
@@ -55,8 +61,8 @@ void draw() {
 
     noStroke();
     translate(width/2, height/2);
-    // rotateY(rotation);
-    rotateX(rotation);
+    rotateY(rotation);
+    // rotateX(rotation);
     scale(scale);
 
     // uno
@@ -88,7 +94,7 @@ void draw() {
     popMatrix();
 
     // box
-    // openbox(boxsize/2);
+    openbox(boxsize/2);
 
     if (debug) {
         float totalpercentvisiblered = (cono[0].getPercentVisibleRed() + 
@@ -101,6 +107,10 @@ void draw() {
         println("2 : % " + cono[2].getPercentVisibleRed());
         println("3 : % " + cono[3].getPercentVisibleRed());
         println("Σ : % " + totalpercentvisiblered);
+    }
+    if (saveframe) {
+        endRaw();
+        saveframe = false;
     }
 }
 
@@ -169,6 +179,9 @@ void keyPressed() {
         case '_':
             if (adjustspeeds > 1.0)
                 adjustspeeds--;
+            break;
+        case ' ':    
+            saveframe = true;
             break;
         default:
             break;
