@@ -43,7 +43,7 @@ public class Cono {
 
     // sides
     public void setSides(int sides) {
-	// number of sides of the base polygon ~ 24 - 256
+    	// number of sides of the base polygon ~ 24 - 256
         this.sides = sides;
     }
     public int getSides() {
@@ -57,9 +57,9 @@ public class Cono {
     }
 
     // update
-    void update() {  
+    void update() {
         float millis = map(millis(), 0, speed*1000, 0, TWO_PI);
-        // rotation = millis*adjustspeeds;
+        rotation = millis*adjustspeeds;
         if (debug)
             println(nf((millis() / 1000) / 60, 2) + ":" + nf((millis() / 1000) % 60, 2));
     }
@@ -74,9 +74,7 @@ public class Cono {
         rotateY(rotation);
 
         // draw half-cone
-        // fill(green);
-        noFill();
-        stroke(255);
+        fill(green);
         // stroke(green);
         beginShape(QUAD_STRIP);
         for (int i = 0; i < sides + 1; ++i) {
@@ -89,8 +87,7 @@ public class Cono {
         angle -= angleIncrement;    // *fix* correct for autoincrement above
 
         // draw other half-cone
-        // fill(red);
-        // noFill();
+        fill(red);
         // stroke(red);
         beginShape(QUAD_STRIP);
         for (int i = 0; i < sides + 1; ++i) {
@@ -99,7 +96,7 @@ public class Cono {
             angle += angleIncrement;
         }
         endShape();
-/*
+
         fill(black);		
         angleIncrement *= 2;  // draw full circles now
 
@@ -124,7 +121,6 @@ public class Cono {
             } 
             endShape();
         }
-*/
         popMatrix();
     }
 }

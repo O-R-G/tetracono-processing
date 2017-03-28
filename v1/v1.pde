@@ -8,13 +8,14 @@ import processing.pdf.*;
 
 Cono[] cono;
 float[] dimensions;
-int[] speeds; 
-int boxsize;                                    
-int conos;                    
-float adjustspeeds = 1.0;                       // 0.5 is realtime -- why?
-float rotation = 0.0; 
+int[] speeds;
+int boxsize;
+int conos;
+float adjustspeeds = 1.0;
+float rotation = 0.0;
 float scale = 1.0;
-boolean debug = true;
+float fov = PI/3.0;
+boolean debug;
 boolean saveframe = true;
 
 void setup() {
@@ -28,7 +29,7 @@ void setup() {
     dimensions[0] = 1.0;        
     dimensions[1] = boxsize/2;
     dimensions[2] = boxsize/2;
-    dimensions[3] = 30; // [24]
+    dimensions[3] = 30; // [24] [30] [60] [90] [120]
 
     // uno, due, tre, quattro
     speeds = new int[4];
@@ -45,6 +46,9 @@ void setup() {
         cono[i].setHeight(dimensions[2]);
         cono[i].setSides(int(dimensions[3]));
     }
+    
+    // perspective
+    // updatePerspective(fov);
 }
 
 void draw() {
@@ -64,6 +68,7 @@ void draw() {
     rotateY(rotation);
     // rotateX(rotation);
     scale(scale);
+    // updatePerspective(fov);
 
     // uno
     pushMatrix();
@@ -160,13 +165,18 @@ void openbox(int base) {
     endShape(CLOSE);
 }
 
+void updatePerspective(float fov) {
+    float cameraZ = (height/2.0) / tan(PI*60.0/360.0);
+    perspective(fov, float(width)/float(height), cameraZ/10.0, cameraZ*10.0);
+}
+
 void mouseDragged() {
     // global 3d controls
-
     float adjustX = mouseX - width/2;
     float adjustY = abs(mouseY - height/2);
     rotation = map(adjustX, 0, width/2, 0, PI);
     scale = map(adjustY, 0, height/2, 0, height/100);   
+    fov = map(adjustX, 0, width/2, PI/3.0, PI/1.0);   
 }
 
 void keyPressed() {
@@ -182,6 +192,8 @@ void keyPressed() {
             break;
         case ' ':    
             saveframe = true;
+            if (debug)
+                println("fov = " + fov + " / scale = " + scale);
             break;
         default:
             break;
