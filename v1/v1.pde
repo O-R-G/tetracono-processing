@@ -5,8 +5,10 @@
 // https://processing.org/examples/vertices.html
 
 import processing.pdf.*;
+// import processing.video.*;
 
 Cono[] cono;
+VideoExport videoExport;
 float[] dimensions;
 int[] speeds;
 int boxsize;
@@ -17,6 +19,7 @@ float scale = 1.0;
 float fov = PI/3.0;
 boolean debug;
 boolean saveframe = true;
+boolean exportvideo = true;
 
 void setup() {
     size(800, 800, P3D);
@@ -46,7 +49,13 @@ void setup() {
         cono[i].setHeight(dimensions[2]);
         cono[i].setSides(int(dimensions[3]));
     }
-    
+
+    // videoExport  
+    if (exportvideo) {
+        videoExport = new VideoExport(this, "out/mp4/out.mov", "data/audio/in.wav");
+        videoExport.setFrameRate(30.0);
+    }
+
     // perspective
     // updatePerspective(fov);
 }
@@ -117,6 +126,9 @@ void draw() {
         endRaw();
         saveframe = false;
     }
+
+    if (exportvideo)
+        videoExport.saveFrame();
 }
 
 void openbox(int base) {
