@@ -13,7 +13,7 @@ int[] speeds;
 int boxsize;
 int conos;
 int counter;
-float adjustspeeds = 18.0;
+float adjustspeeds = 1.0;
 float rotation = 0.0;
 float scale = 3.0;
 float fov = PI/3.0;
@@ -135,7 +135,7 @@ void draw() {
     if (exportvideo) {
         videoExport.saveFrame();
         counter+=1000;  // https://processing.org/reference/float.html
-        if ( ((counter/30)/1000) / 60 >= 1)
+        if (((counter/30)/1000) / 60 >= 18/adjustspeeds)
             exit();
     }
 
