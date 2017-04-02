@@ -5,7 +5,6 @@
 // https://processing.org/examples/vertices.html
 
 import processing.pdf.*;
-// import processing.video.*;
 
 Cono[] cono;
 VideoExport videoExport;
@@ -13,13 +12,14 @@ float[] dimensions;
 int[] speeds;
 int boxsize;
 int conos;
-float adjustspeeds = 1.0;
+int counter;
+float adjustspeeds = 18.0;
 float rotation = 0.0;
-float scale = 1.0;
+float scale = 3.0;
 float fov = PI/3.0;
-boolean debug;
-boolean saveframe = true;
-boolean exportvideo = true;
+boolean debug = true;
+boolean saveframe;
+boolean exportvideo;
 
 void setup() {
     size(800, 800, P3D);
@@ -50,11 +50,9 @@ void setup() {
         cono[i].setSides(int(dimensions[3]));
     }
 
-    // videoExport  
-    if (exportvideo) {
-        videoExport = new VideoExport(this, "out/mp4/out.mov", "data/audio/in.wav");
-        videoExport.setFrameRate(30.0);
-    }
+    // videoExport        
+    videoExport = new VideoExport(this, "out/mp4/out.mov", "");
+    videoExport.setFrameRate(30.0);
 
     // perspective
     // updatePerspective(fov);
@@ -79,9 +77,16 @@ void draw() {
     scale(scale);
     // updatePerspective(fov);
 
+    // update conos    
+    for (int i = 0; i < cono.length; i++) {
+        if (exportvideo)
+            cono[i].updatenonrealtime();
+        else 
+            cono[i].update();
+    }
+
     // uno
     pushMatrix();
-    cono[0].update();
     cono[0].display();
     popMatrix();
 
@@ -89,46 +94,55 @@ void draw() {
     pushMatrix();
     rotateX(TWO_PI/2);
     rotateY(TWO_PI/2);
-    cono[1].update();
     cono[1].display();
     popMatrix();
 
     // tre
     pushMatrix();
     rotateZ(TWO_PI/4);
-    cono[2].update();
     cono[2].display();
     popMatrix();
 
     // quattro
     pushMatrix();
     rotateZ(-TWO_PI/4);
-    cono[3].update();
     cono[3].display();
     popMatrix();
 
     // box
     openbox(boxsize/2);
-
+    
+    /*   
+    // % red visible
     if (debug) {
         float totalpercentvisiblered = (cono[0].getPercentVisibleRed() + 
                                         cono[1].getPercentVisibleRed() + 
                                         cono[2].getPercentVisibleRed() + 
                                         cono[3].getPercentVisibleRed()) / 4;
-        println(nf((millis() / 1000) / 60, 2) + ":" + nf((millis() / 1000) % 60, 2));
         println("0 : % " + cono[0].getPercentVisibleRed());
         println("1 : % " + cono[1].getPercentVisibleRed());
         println("2 : % " + cono[2].getPercentVisibleRed());
         println("3 : % " + cono[3].getPercentVisibleRed());
         println("Σ : % " + totalpercentvisiblered);
     }
+    */
+    
     if (saveframe) {
         endRaw();
         saveframe = false;
     }
 
-    if (exportvideo)
+    if (exportvideo) {
         videoExport.saveFrame();
+        counter+=1000;  // https://processing.org/reference/float.html
+        if ( ((counter/30)/1000) / 60 >= 1)
+            exit();
+    }
+
+    if (debug) {
+        println(nf(((counter/30) / 1000) / 60, 2) + ":" + nf(((counter/30) / 1000) % 60, 2));
+        println(nf((millis() / 1000) / 60, 2) + ":" + nf((millis() / 1000) % 60, 2));
+    }
 }
 
 void openbox(int base) {
@@ -206,6 +220,9 @@ void keyPressed() {
             saveframe = true;
             if (debug)
                 println("fov = " + fov + " / scale = " + scale);
+            break;
+        case 'x':
+            exportvideo = true;
             break;
         default:
             break;

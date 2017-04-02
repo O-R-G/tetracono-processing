@@ -64,6 +64,15 @@ public class Cono {
             println(nf((millis() / 1000) / 60, 2) + ":" + nf((millis() / 1000) % 60, 2));
     }
 
+    // update non-realtime 
+    void updatenonrealtime() {
+        // for exportvideo @ 30 fps
+        float millis = map(counter/30, 0, speed*1000, 0, TWO_PI);
+        rotation = millis*adjustspeeds;
+        if (debug)
+            println(nf(((counter/30) / 1000) / 60, 2) + ":" + nf(((counter/30) / 1000) % 60, 2));
+    }
+
     void display() {
         float angle = 0;
         float angleIncrement = TWO_PI / sides;
