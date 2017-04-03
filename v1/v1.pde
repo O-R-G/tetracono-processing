@@ -15,7 +15,7 @@ int conos;
 int counter;
 float adjustspeeds = 1.0;
 float rotation = 0.0;
-float scale = 3.0;
+float scale = 1.0;
 float fov = PI/3.0;
 boolean debug = true;
 boolean saveframe;
