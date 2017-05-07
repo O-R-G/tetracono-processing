@@ -14,12 +14,14 @@ int boxsize;
 int conos;
 int counter;
 float adjustspeeds = 1.0;
-float rotation = 0.0;
+float rotationX = 0.0;
+float rotationY = 0.0;
 float scale = 1.0;
 float fov = PI/3.0;
-boolean debug = true;
+boolean shiftpressed;
 boolean saveframe;
 boolean exportvideo;
+boolean debug = true;
 
 void setup() {
     size(800, 800, P3D);
@@ -72,8 +74,8 @@ void draw() {
 
     noStroke();
     translate(width/2, height/2);
-    rotateY(rotation);
-    // rotateX(rotation);
+    rotateY(rotationY);
+    rotateX(rotationX);
     scale(scale);
     // updatePerspective(fov);
 
@@ -158,6 +160,7 @@ void openbox(int base) {
     vertex(-base,  base, -base);
     endShape(CLOSE);
 
+    /*
     // back
     beginShape();
     vertex(-base, -base, -base);
@@ -165,6 +168,7 @@ void openbox(int base) {
     vertex( base,  base, -base);
     vertex(-base,  base, -base);
     endShape(CLOSE);
+    */
 
     // right
     beginShape();
@@ -198,23 +202,38 @@ void updatePerspective(float fov) {
 
 void mouseDragged() {
     // global 3d controls
-    float adjustX = mouseX - width/2;
-    float adjustY = abs(mouseY - height/2);
-    rotation = map(adjustX, 0, width/2, 0, PI);
-    scale = map(adjustY, 0, height/2, 0, height/100);   
-    fov = map(adjustX, 0, width/2, PI/3.0, PI/1.0);   
+    if (shiftpressed) {
+        float adjustY = abs(mouseY - height/2);
+        scale = map(adjustY, 0, height/2, 0, height/100);   
+    } else {
+        float adjustX = mouseX - width/2;
+        float adjustY = -1 * (mouseY - height/2);
+        rotationX = map(adjustY, 0, height/2, 0, PI);
+        rotationY = map(adjustX, 0, width/2, 0, PI);
+        fov = map(adjustX, 0, width/2, PI/3.0, PI/1.0);   
+    }
 }
 
 void keyPressed() {
+    if (key == CODED) {
+        if (keyCode == SHIFT) {
+            shiftpressed = true;
+        }
+    }
     switch(key) {
         case '=':
-        case '+':
             adjustspeeds++;
             break;
         case '-':
-        case '_':
             if (adjustspeeds > 1.0)
                 adjustspeeds--;
+            break;
+        case '+':
+            scale+=0.05;
+            break;
+        case '_':
+            if (scale > 0.05)
+                scale-=0.05;
             break;
         case ' ':    
             saveframe = true;
@@ -228,3 +247,8 @@ void keyPressed() {
             break;
     }
 }
+
+void keyReleased() {
+    shiftpressed = false;
+}
+
